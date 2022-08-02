@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 
-from functions import MoneyService, Validator
+from money_service import MoneyService
+from validators import Validator
 
 app = Flask(__name__)
 
