@@ -1,0 +1,17 @@
+1) requests module - install and import
+2) find api and and read the manual
+3) using requests.get source the data
+4) convert data into json
+5) extract data from json
+6) flask establish
+7) url parameters
+8) http://127.0.0.1:5000/?curr1=pln&curr2=thb&amount=100
+9) 2 decimal - '{:.2f}'.format(float_var)
+10) handle PLN
+11) error exception:
+12) decimals
+13) error exception to minimal part of code
+14) OOP
+15) Validator
+dane curr z danego dnia
+sprawdzic czy azapytanie jest w bazie dnych i jK NIE MA ZAPYTAC BNBP I DODAC
