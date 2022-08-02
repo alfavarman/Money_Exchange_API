@@ -4,6 +4,7 @@ from json import JSONDecodeError
 import requests
 
 import settings as s
+from iso42 import country_codes as codes
 
 
 class ExternalApiService:
@@ -12,12 +13,10 @@ class ExternalApiService:
     def get_currency_rate(self, currency_code: str) -> float:
         if currency_code.lower() == self.default_currency:
             return 1
-        try:
-            response = requests.get(f"{s.CONSTANT1}{currency_code}/")
-            currency_rate = json.loads(response.text)["rates"][0]["mid"]
-            return currency_rate
-        except JSONDecodeError:
-            raise Exception("Wrong Currency Code, try again")
+
+        response = requests.get(f"{s.CONSTANT1}{currency_code}/")
+        currency_rate = json.loads(response.text)["rates"][0]["mid"]
+        return currency_rate
 
 
 class MoneyService:
@@ -34,14 +33,25 @@ class MoneyService:
 
     def get_money_exchange(self) -> float:
         exchange_rate = self.get_exchange_rate()
-        try:
-            result = float(exchange_rate) * float(self.amount)
-            return result
-        except ValueError:
-            raise Exception("amount must be a number")
+        result = float(exchange_rate) * float(self.amount)
+        return result
 
 
-ex = MoneyService("pln", "usd", 500)
+class Validator:
+    def __init__(self, currency_1: str, currency_2: str, amount: str):
+        self.currency_1 = currency_1
+        self.currency_2 = currency_2
+        self.amount = amount
+        self.error = []
 
-ex2 = MoneyService("aa", "ww", 11)
-print(ex.get_money_exchange())
+    def is_valid(self) -> bool:
+        if self.currency_1.upper() not in codes:
+            self.error.append('Wrong Currency1 Code')
+
+        if self.currency_2.upper() not in codes:
+            self.error.append('Wrong Currency2 Code')
+
+        if float(self.amount) < 0:
+            self.error.append('Amount must be a positive number')
+
+        return len(self.error) == 0

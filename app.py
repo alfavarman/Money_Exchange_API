@@ -1,26 +1,29 @@
 from flask import Flask, jsonify, request
 
-from functions import MoneyService
+from functions import MoneyService, Validator
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def currency_exchange_api():
+    curr1 = request.args.get("curr1")
+    curr2 = request.args.get("curr2")
+    amount = request.args.get("amount")
+
+    validator = Validator(currency_1=curr1, currency_2=curr2, amount=amount)
+    if not validator.is_valid():
+        return jsonify({"error": ", ".join(validator.error)})
 
     exchange = MoneyService(
-        currency_1=request.args.get("curr1"),
-        currency_2=request.args.get("curr2"),
-        amount=request.args.get("amount"),
+        currency_1=curr1,
+        currency_2=curr2,
+        amount=amount,
     )
-    # build validator
-    try:
-        exchange.get_money_exchange()
-    except Exception as e:
-        return jsonify({"error": str(e)})
-    return jsonify(
-        {exchange.currency_2: float("{:.2f}".format(exchange.get_money_exchange()))}
-    )
+
+    exchange.get_money_exchange()
+    payload = {exchange.currency_2: float("{:.2f}".format(exchange.get_money_exchange()))}
+    return jsonify(payload)
 
 
 if __name__ == "__main__":
