@@ -11,7 +11,12 @@
 11) error exception:
 12) decimals
 13) error exception to minimal part of code
-14) OOP
-15) Validator
-dane curr z danego dnia
-sprawdzic czy azapytanie jest w bazie dnych i jK NIE MA ZAPYTAC BNBP I DODAC
+14) OOP - convert to class
+15) ** Validator -> Errors from NoneType has no atributes upper and float cant be nonetype - validator
+16) PostgreSQL Database, select the exchange rate from database if not exist on that day source from api to database
+17) Table if not exists, Table
+18) README file
+19) settings.py
+20)
+str idzie do basy danych get_rates jest stringiem
+

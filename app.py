@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-
 from money_service import MoneyService
 from validators import Validator
 
@@ -22,8 +21,10 @@ def currency_exchange_api():
         amount=amount,
     )
 
-    exchange.get_money_exchange()
-    payload = {exchange.currency_2: float("{:.2f}".format(exchange.get_money_exchange()))}
+    exchange_result = exchange.get_money_exchange()
+    payload = {
+        exchange.currency_2: round(exchange_result, 2)                    #float("{:.2f}".format(exchange_result))
+    }
     return jsonify(payload)
 
 
