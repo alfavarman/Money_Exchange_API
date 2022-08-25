@@ -23,7 +23,7 @@ def currency_exchange_api():
 
     exchange_result = exchange.get_money_exchange()
     payload = {
-        exchange.currency_2: round(exchange_result, 2)                    #float("{:.2f}".format(exchange_result))
+        exchange.currency_2: round(exchange_result, 2)
     }
     return jsonify(payload)
 

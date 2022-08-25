@@ -1,6 +1,5 @@
 from external_api_service import ExternalApiService
 import psycopg2
-from datetime import date
 
 
 class MoneyService(ExternalApiService):
@@ -28,10 +27,11 @@ class MoneyService(ExternalApiService):
             "rate FLOAT, "
             "date DATE)"
         )
-
+        # why we first connect to server not to database?
+        #ratelist = [curr_rate: float, curr_date: str]
         ratelist = self.get_currency_rate(currency_code.upper())
 
-        select = f"SELECT rate FROM currate WHERE code='{currency_code.upper()}' AND date='{str(date.today())}'"
+        select = f"SELECT rate FROM currate WHERE code='{currency_code.upper()}' AND date='{ratelist[1]}'"
 
         cursor.execute(select)
         result = cursor.fetchone()
@@ -43,14 +43,14 @@ class MoneyService(ExternalApiService):
                 f"'{ratelist[1]}') ON CONFLICT DO NOTHING"
             )
             cursor.execute(insert)
-            return ratelist[1]
+            return ratelist[0]
         return float(result[0])
-
+        # Todo - close connection!
 
     def get_exchange_rate(self) -> float:
         rate_1 = self.get_db_rate(self.currency_1)
         rate_2 = self.get_db_rate(self.currency_2)
-        return float(rate_1) / float(rate_2)
+        return rate_1 / rate_2
 
     def get_money_exchange(self) -> float:
         exchange_rate = self.get_exchange_rate()
