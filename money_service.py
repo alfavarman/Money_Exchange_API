@@ -1,7 +1,7 @@
 from external_api_service import get_currency_rate
 from settings import db
 from datetime import date
-from models import CurrateA
+from models import Currate
 
 
 class MoneyService:
@@ -11,17 +11,19 @@ class MoneyService:
         self.amount = amount
 
     def get_rate_from_db(self, currency_code: str) -> float:
-        rate = db.session.query(CurrateA.rate).filter_by(code=currency_code, date=date.today()).first()
-        # .one_or_none()
-        return rate
+        rate = (
+            db.session.query(Currate.rate)
+            .filter((Currate.code == currency_code) | (Currate.date == date.today()))
+            .first()
+        )
+        return rate[0] if rate else None
 
     def insert_rate_to_db(self, currency_code: str) -> float:
-        #not if duplicated
-        if currency_code == 'pln'.upper():
+        if currency_code == "pln".upper():
             return 1
         else:
             ratelist = get_currency_rate(currency_code.upper())
-            rate_cur = CurrateA(code=currency_code, rate=ratelist[0], date=ratelist[1])
+            rate_cur = Currate(code=currency_code, rate=ratelist[0], date=ratelist[1])
             db.session.add(rate_cur)
             db.session.commit()
             rate = ratelist[0]
@@ -30,7 +32,7 @@ class MoneyService:
     def get_rate(self, currency_code: str) -> float:
 
         rate = self.get_rate_from_db(currency_code)
-        if not rate: # czy istieje
+        if not rate:
             rate = self.insert_rate_to_db(currency_code)
         return rate
 
