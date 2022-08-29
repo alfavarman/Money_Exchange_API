@@ -1,6 +1,6 @@
 from datetime import date
 
-from external_api_service import get_currency_rate
+from external_api_service import get_currency_rate_from_nbp
 from models import Currate
 from settings import db
 
@@ -19,19 +19,23 @@ class MoneyService:
         )
         return rate[0] if rate else None
 
-    def find_rate(self, currency_code: str) -> float:
-        if currency_code == "pln".upper():
-            return 1
-        rate = get_currency_rate(currency_code.upper())
-        rate_cur = Currate(code=currency_code, rate=rate, date=date.today())
+    def insert_rate_to_db(self, code: str, rate: float) -> None:
+        rate_cur = Currate(code=code, rate=rate, date=date.today())
         db.session.add(rate_cur)
         db.session.commit()
+
+    def find_rate(self, currency_code: str) -> float:
+        currency_code = currency_code.upper()
+        if currency_code == "PLN":
+            return 1
+        rate = get_currency_rate_from_nbp(currency_code)
         return rate
 
     def get_rate(self, currency_code: str) -> float:
         rate = self.get_rate_from_db(currency_code)
         if not rate:
             rate = self.find_rate(currency_code)
+            self.insert_rate_to_db(code=currency_code, rate=rate)
         return rate
 
     def get_exchange_rate(self) -> float:
