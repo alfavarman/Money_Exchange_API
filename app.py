@@ -1,12 +1,12 @@
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from money_service import MoneyService
+from settings import app
 from validators import Validator
-
-app = Flask(__name__)
 
 
 @app.route("/")
 def currency_exchange_api():
+
     curr1 = request.args.get("curr1")
     curr2 = request.args.get("curr2")
     amount = request.args.get("amount")
