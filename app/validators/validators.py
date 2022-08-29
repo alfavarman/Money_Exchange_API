@@ -1,4 +1,4 @@
-from iso4217 import country_codes as codes
+from fixtures.iso4217 import country_codes as codes
 
 
 class Validator:

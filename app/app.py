@@ -1,8 +1,7 @@
 from flask import jsonify, request
-
-from money_service import MoneyService
+from services.money_service import MoneyService
 from settings import app
-from validators import Validator
+from validators.validators import Validator
 
 
 @app.route("/")

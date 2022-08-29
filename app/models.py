@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Date, Float, String
 from settings import db
+from sqlalchemy import Column, Date, Float, String
 
 
 class Currate(db.Model):

@@ -1,5 +1,5 @@
-from external_api_service import get_currency_rate_from_nbp
-from database_service import DatabaseService
+from services.database_service import DatabaseService
+from services.external_api_service import get_currency_rate_from_nbp
 
 
 class MoneyService:

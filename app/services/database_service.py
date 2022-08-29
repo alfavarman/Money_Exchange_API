@@ -1,6 +1,7 @@
-from settings import db
-from models import Currate
 from datetime import date
+
+from models import Currate
+from settings import db
 
 
 class DatabaseService:
