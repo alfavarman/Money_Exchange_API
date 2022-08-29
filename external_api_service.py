@@ -2,12 +2,10 @@ import json
 
 import requests
 
-import settings as s
+import settings
 
 
-def get_currency_rate(currency_code: str) -> list:
-    response = requests.get(f"{s.CONSTANT1}{currency_code}/")
-    currency_rate = json.loads(response.text)["rates"][0]["mid"]
-    rate_date = json.loads(response.text)["rates"][0]["effectiveDate"]
-    rate = [currency_rate, rate_date]
+def get_currency_rate(currency_code: str) -> float:
+    response = requests.get(f"{settings.CONSTANT1}{currency_code}/")
+    rate = json.loads(response.text)["rates"][0]["mid"]
     return rate
