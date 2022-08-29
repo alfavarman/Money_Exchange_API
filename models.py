@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Date, Float, String
-
 from settings import db
 
 

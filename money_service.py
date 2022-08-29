@@ -1,5 +1,5 @@
 from external_api_service import get_currency_rate_from_nbp
-from db import DatabaseService
+from database_service import DatabaseService
 
 
 class MoneyService:
@@ -17,10 +17,10 @@ class MoneyService:
 
     def _get_rate(self, currency_code: str) -> float:
         db_service = DatabaseService(currency_code=currency_code)
-        rate = db_service.get_rate_from_db()
+        rate = db_service.get_rate()
         if not rate:
             rate = self._find_rate(currency_code)
-            db_service.insert_rate_to_db(rate=rate)
+            db_service.insert_rate(rate=rate)
         return rate
 
     def _get_exchange_rate(self) -> float:
@@ -30,5 +30,4 @@ class MoneyService:
 
     def get_money_exchange(self) -> float:
         exchange_rate = self._get_exchange_rate()
-        result = float(exchange_rate) * float(self.amount)
-        return result
+        return exchange_rate * float(self.amount)

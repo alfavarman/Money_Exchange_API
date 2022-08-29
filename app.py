@@ -16,11 +16,7 @@ def currency_exchange_api():
         return jsonify({"error": ", ".join(validator.error)})
 
     try:
-        exchange = MoneyService(
-            currency_1=curr1,
-            currency_2=curr2,
-            amount=amount,
-        )
+        exchange = MoneyService(currency_1=curr1, currency_2=curr2, amount=amount)
         exchange_result = exchange.get_money_exchange()
         payload = {exchange.currency_2: round(exchange_result, 2)}
         return jsonify(payload)

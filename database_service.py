@@ -7,7 +7,7 @@ class DatabaseService:
     def __init__(self, currency_code: str):
         self.currency_code = currency_code
 
-    def get_rate_from_db(self) -> float:
+    def get_rate(self) -> float:
         rate = (
             db.session.query(Currate.rate)
             .filter((Currate.code == self.currency_code) & (Currate.date == date.today()))
@@ -15,7 +15,7 @@ class DatabaseService:
         )
         return rate[0] if rate else None
 
-    def insert_rate_to_db(self, rate: float) -> None:
+    def insert_rate(self, rate: float) -> None:
         rate_cur = Currate(currency_code=self.currency_code, rate=rate, date=date.today())
         db.session.add(rate_cur)
         db.session.commit()
