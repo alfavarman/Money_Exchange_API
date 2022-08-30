@@ -1,5 +1,6 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from services.external_api_service import get_currency_rate_from_nbp
 
 

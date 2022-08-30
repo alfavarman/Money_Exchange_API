@@ -3,7 +3,7 @@ from services.external_api_service import get_currency_rate_from_nbp
 
 
 class MoneyService:
-    def __init__(self, currency_1: str, currency_2: str, amount: float):
+    def __init__(self, currency_1: str, currency_2: str, amount: str):
         self.currency_1 = currency_1
         self.currency_2 = currency_2
         self.amount = amount
@@ -30,4 +30,4 @@ class MoneyService:
 
     def get_money_exchange(self) -> float:
         exchange_rate = self._get_exchange_rate()
-        return exchange_rate * self.amount
+        return exchange_rate * float(self.amount)

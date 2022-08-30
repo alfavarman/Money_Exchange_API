@@ -1,4 +1,5 @@
 from datetime import date
+
 from models import Currate
 from settings import db
 
@@ -20,4 +21,3 @@ class DatabaseService:
         db.session.add(rate_cur)
         db.session.commit()
         db.session.close()
-

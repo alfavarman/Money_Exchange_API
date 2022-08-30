@@ -12,7 +12,7 @@ def currency_exchange_api():
 
     validator = Validator(currency_1=curr1, currency_2=curr2, amount=amount)
     if not validator.is_valid():
-        return jsonify({"error": ", ".join(validator.error)})
+        return jsonify({"error": ", ".join(validator.error)}), 400
 
     try:
         exchange = MoneyService(currency_1=curr1, currency_2=curr2, amount=amount)

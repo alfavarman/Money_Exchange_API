@@ -2,7 +2,7 @@ from fixtures.iso4217 import country_codes as codes
 
 
 class Validator:
-    def __init__(self, currency_1: str, currency_2: str, amount: float):
+    def __init__(self, currency_1: str, currency_2: str, amount: str):
         self.currency_1 = currency_1
         self.currency_2 = currency_2
         self.amount = amount
