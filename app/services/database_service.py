@@ -1,5 +1,4 @@
 from datetime import date
-
 from models import Currate
 from settings import db
 
@@ -17,7 +16,8 @@ class DatabaseService:
         return rate[0] if rate else None
 
     def insert_rate(self, rate: float) -> None:
-        rate_cur = Currate(currency_code=self.currency_code, rate=rate, date=date.today())
+        rate_cur = Currate(code=self.currency_code, rate=rate, date=date.today())
         db.session.add(rate_cur)
         db.session.commit()
         db.session.close()
+
